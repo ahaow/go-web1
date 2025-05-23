@@ -2,23 +2,15 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
+	"go-web1/controllers"
 )
 
 func SetupRouter() *gin.Engine {
 	r := gin.Default()
 	auth := r.Group("/api/auth")
 	{
-		auth.GET("/login", func(ctx *gin.Context) {
-			ctx.AbortWithStatusJSON(http.StatusOK, gin.H{
-				"msg": "login success",
-			})
-		})
-		auth.POST("/register", func(ctx *gin.Context) {
-			ctx.AbortWithStatusJSON(http.StatusOK, gin.H{
-				"msg": "register success",
-			})
-		})
+		auth.GET("/login", controllers.Login)
+		auth.POST("/register", controllers.Register)
 	}
 	return r
 }
