@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
+	"go-web1/utils"
 	"net/http"
 )
 
@@ -13,5 +14,15 @@ func AuthMiddleware() gin.HandlerFunc {
 			ctx.Abort()
 			return
 		}
+		username, err := utils.ParseJWT(token)
+
+		if err != nil {
+			ctx.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token"})
+			ctx.Abort()
+			return
+		}
+
+		ctx.Set("username", username)
+		ctx.Next()
 	}
 }
